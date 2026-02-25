@@ -1,0 +1,17 @@
+# ── Large media files (too big for GitHub) ──
+assets/images/*.mp4
+assets/images/*.webm
+assets/images/*.mov
+assets/videos/
+
+# ── System / Editor ──
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+.vscode/
+.idea/
+
+# ── PowerShell helper scripts (local only) ──
+fix_hotels_currency.ps1
+fix_hotels_currency.php
