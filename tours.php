@@ -133,51 +133,59 @@
         <div class="row g-4">
 
             <?php
-            $tours = [
-                ['title'=>'Bali Paradise Experience','desc'=>'Discover the magic of Bali with pristine beaches, ancient temples, and vibrant culture.','dest'=>'Bali, Indonesia','days'=>7,'price'=>'1,49,999','orig'=>'1,99,999','img'=>'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&h=400&fit=crop&auto=format','tag'=>'POPULAR','rating'=>'4.8','reviews'=>284,'inc'=>['5-star Hotel','Daily Breakfast','Guided Tours','Airport Transfer'],'group'=>'Group Tours'],
-                ['title'=>'Swiss Alps Adventure','desc'=>'Experience breathtaking mountain landscapes, alpine meadows, and charming Swiss villages.','dest'=>'Switzerland','days'=>5,'price'=>'2,19,999','orig'=>'2,59,999','img'=>'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop&auto=format','tag'=>'LUXURY','rating'=>'4.9','reviews'=>156,'inc'=>['Luxury Hotel','3 Course Meals','Cable Car Tours','Wine Tasting'],'group'=>'Small Groups'],
-                ['title'=>'Tokyo Lights &amp; Culture','desc'=>'Immerse yourself in neon-lit streets, ancient temples, and the finest Japanese cuisine.','dest'=>'Tokyo, Japan','days'=>4,'price'=>'1,19,999','orig'=>'1,49,999','img'=>'https://images.unsplash.com/photo-1532236204992-f5e85c024202?w=600&h=400&fit=crop&auto=format','tag'=>'FAMILY','rating'=>'4.7','reviews'=>342,'inc'=>['4-star Hotel','JR Pass','Museum Tours','Local Cuisine'],'group'=>'All Ages'],
-                ['title'=>'Maldives Romantic Getaway','desc'=>'Perfect romantic escape with overwater bungalows and pristine coral reefs.','dest'=>'Maldives','days'=>6,'price'=>'2,99,999','orig'=>'3,49,999','img'=>'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&h=400&fit=crop&auto=format','tag'=>'HONEYMOON','rating'=>'5.0','reviews'=>89,'inc'=>['Water Bungalow','All Meals','Spa Treatment','Sunset Cruise'],'group'=>'Couples'],
-                ['title'=>'Iceland Northern Lights','desc'=>'Witness waterfalls, glaciers, and the magical aurora borealis in Iceland.','dest'=>'Iceland','days'=>8,'price'=>'2,39,999','orig'=>'2,89,999','img'=>'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&h=400&fit=crop&auto=format','tag'=>'ADVENTURE','rating'=>'4.6','reviews'=>201,'inc'=>['4x4 Vehicle','Northern Lights Tour','Glacier Hike','Hot Spring Visit'],'group'=>'Adventure Seekers'],
-                ['title'=>'Egypt Historical Journey','desc'=>'Explore ancient pyramids, pharaoh tombs, and cruise the majestic Nile River.','dest'=>'Egypt','days'=>9,'price'=>'1,89,999','orig'=>'2,29,999','img'=>'https://images.unsplash.com/photo-1590422749897-47036da0b0ff?w=600&h=400&fit=crop&auto=format','tag'=>'CULTURAL','rating'=>'4.8','reviews'=>127,'inc'=>['Nile Cruise','Pyramid Tours','Museum Entry','Expert Guide'],'group'=>'History Enthusiasts'],
-            ];
-            foreach($tours as $i => $t): ?>
-            <div class="col-lg-4 col-md-6 tour-card-wrap" data-aos="fade-up" data-aos-delay="<?= (($i % 3) + 1) * 100 ?>" data-title="<?= htmlspecialchars(strtolower($t['title'])) ?>" data-dest="<?= htmlspecialchars(strtolower($t['dest'])) ?>" data-days="<?= $t['days'] ?>" data-price="<?= str_replace(',','',$t['price']) ?>">
+            // Load tours from database
+            $tourRows = [];
+            try {
+                $res = $conn->query("SELECT * FROM tours WHERE active=1 ORDER BY created_at DESC");
+                if ($res) while($r=$res->fetch_assoc()) $tourRows[] = $r;
+            } catch(Exception $e) {}
+
+            if (empty($tourRows)):
+            ?>
+            <div class="col-12 text-center py-5" style="color:#9ca3af;">
+                <i class="bi bi-compass" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:0.3;"></i>
+                <p>No tours available yet. Check back soon!</p>
+            </div>
+            <?php else: foreach($tourRows as $i => $t):
+                $incs = array_filter(array_map('trim', explode(',', $t['inclusions'] ?? '')));
+            ?>
+            <div class="col-lg-4 col-md-6 tour-card-wrap" data-aos="fade-up" data-aos-delay="<?= (($i % 3) + 1) * 100 ?>" data-title="<?= htmlspecialchars(strtolower($t['title'])) ?>" data-dest="<?= htmlspecialchars(strtolower($t['destination'])) ?>" data-days="<?= $t['duration'] ?>" data-price="<?= $t['price'] ?>">
                 <div class="tour-card">
-                    <div class="tour-card-img" style="background-image: url('<?= $t['img'] ?>');">
-                        <span class="tour-tag"><?= $t['tag'] ?></span>
+                    <div class="tour-card-img" style="background-image: url('<?= htmlspecialchars($t['image_url'] ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=400&fit=crop') ?>')">
+                        <span class="tour-tag"><?= htmlspecialchars($t['tag'] ?? 'TOUR') ?></span>
                         <span class="tour-rating"><i class="bi bi-star-fill"></i> <?= $t['rating'] ?>/5 (<?= $t['reviews'] ?> reviews)</span>
                     </div>
                     <div class="tour-body">
-                        <h4><?= $t['title'] ?></h4>
-                        <p class="desc"><?= $t['desc'] ?></p>
-                        
+                        <h4><?= htmlspecialchars($t['title']) ?></h4>
+                        <p class="desc"><?= htmlspecialchars($t['description'] ?? '') ?></p>
                         <div class="tour-meta">
-                            <span><i class="bi bi-calendar3"></i> <?= $t['days'] ?> Days</span>
-                            <span><i class="bi bi-geo-alt"></i> <?= $t['dest'] ?></span>
-                            <span><i class="bi bi-people"></i> <?= $t['group'] ?></span>
+                            <span><i class="bi bi-calendar3"></i> <?= $t['duration'] ?> Days</span>
+                            <span><i class="bi bi-geo-alt"></i> <?= htmlspecialchars($t['destination']) ?></span>
+                            <span><i class="bi bi-people"></i> <?= htmlspecialchars($t['group_type'] ?? 'All Groups') ?></span>
                         </div>
-
+                        <?php if (!empty($incs)): ?>
                         <div class="tour-includes">
                             <h6>Includes:</h6>
                             <ul>
-                                <?php foreach($t['inc'] as $inc): ?>
-                                <li><i class="bi bi-check-circle-fill"></i> <?= $inc ?></li>
+                                <?php foreach(array_slice($incs,0,4) as $inc): ?>
+                                <li><i class="bi bi-check-circle-fill"></i> <?= htmlspecialchars($inc) ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
-
+                        <?php endif; ?>
                         <div class="tour-footer">
                             <div>
-                                <span class="old-price">₹<?= $t['orig'] ?></span>
-                                <span class="price">₹<?= $t['price'] ?></span>
+                                <?php if($t['original_price'] > $t['price']): ?>
+                                <span class="old-price">₹<?= number_format($t['original_price']) ?></span>
+                                <?php endif; ?>
+                                <span class="price">₹<?= number_format($t['price']) ?></span>
                             </div>
                             <?php if(isset($_SESSION['user'])): ?>
-                            <button class="book-btn" 
-                                data-tour="<?= htmlspecialchars($t['title']) ?>" 
-                                data-price="<?= str_replace(',','',$t['price']) ?>"
-                                data-days="<?= $t['days'] ?>"
-                                data-dest="<?= htmlspecialchars($t['dest']) ?>">
+                            <button class="book-btn"
+                                data-tour="<?= htmlspecialchars($t['title']) ?>"
+                                data-price="<?= $t['price'] ?>"
+                                data-days="<?= $t['duration'] ?>"
+                                data-dest="<?= htmlspecialchars($t['destination']) ?>">
                                 <i class="bi bi-airplane me-1"></i>Book Now
                             </button>
                             <?php else: ?>
@@ -187,10 +195,8 @@
                     </div>
                 </div>
             </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</section>
+            <?php endforeach; endif; ?>
+
 
 <!-- BOOKING MODAL -->
 <div class="modal fade" id="bookingModal" tabindex="-1">

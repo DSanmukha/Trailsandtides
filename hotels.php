@@ -78,10 +78,13 @@
         <div class="col-md-5">
           <select class="form-select" id="hotelDestination">
             <option value="">All Destinations</option>
-            <option value="bali">Bali</option>
-            <option value="paris">Paris</option>
-            <option value="tokyo">Tokyo</option>
-          </select>
+            <?php
+            try {
+                $destOpts = $conn->query("SELECT DISTINCT destination FROM hotels WHERE active=1 ORDER BY destination");
+                if ($destOpts) while($d=$destOpts->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars(strtolower(explode(',',$d['destination'])[0])) ?>"><?= htmlspecialchars($d['destination']) ?></option>
+            <?php endwhile; } catch(Exception $e) {} ?>
+
         </div>
         <div class="col-md-1">
           <button class="btn w-100" style="background: linear-gradient(135deg, #8b5cf6, #c084fc); color: white; border-radius: 12px; font-weight: 600; border: none; padding: 10px;" onclick="filterHotels()"><i class="bi bi-search"></i></button>
@@ -102,15 +105,50 @@
         <h2 class="section-title" style="color: #1e1b4b;">Featured Hotels</h2>
       </div>
       <div class="row g-4">
-        <div class="col-md-4 hotel-card-wrap">
-          <div class="hotel-card"><div style="overflow: hidden;"><img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&h=250&fit=crop" alt="Bali Resort" class="hotel-card-img"></div><div class="hotel-card-body"><div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.4rem;"><h4 style="color: #1e1b4b; margin: 0; font-size: 1.05rem; font-weight: 700;">Bali Beach Resort</h4><span style="background: rgba(139,92,246,0.1); color: #8b5cf6; padding: 2px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 600;">4.8★</span></div><p style="color: #6b7280; margin: 0 0 0.6rem; font-size: 0.82rem;">Luxury beachfront with private pool villas</p><div style="display: flex; justify-content: space-between; align-items: center;"><div><span style="color: #9ca3af; font-size: 0.72rem; text-decoration: line-through;">₹26,499</span><span style="color: #8b5cf6; font-size: 1.2rem; font-weight: 800; margin-left: 0.25rem;">₹20,499</span><span style="color: #9ca3af; font-size: 0.72rem;">/night</span></div><a href="tours.php" class="pkg-btn" style="width: auto; margin: 0; padding: 7px 18px; font-size: 0.82rem;">Book</a></div></div></div>
+      <?php
+      try {
+          $hotelRows = $conn->query("SELECT * FROM hotels WHERE active=1 ORDER BY rating DESC");
+          if ($hotelRows && $hotelRows->num_rows > 0):
+              while ($h = $hotelRows->fetch_assoc()):
+                  $destKey = strtolower(explode(',', $h['destination'])[0]);
+      ?>
+        <div class="col-md-4 hotel-card-wrap" data-dest="<?= htmlspecialchars($destKey) ?>" data-name="<?= htmlspecialchars(strtolower($h['name'])) ?>">
+          <div class="hotel-card">
+            <div style="overflow: hidden;">
+              <img src="<?= htmlspecialchars($h['image_url'] ?? 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop') ?>" alt="<?= htmlspecialchars($h['name']) ?>" class="hotel-card-img" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop'">
+            </div>
+            <div class="hotel-card-body">
+              <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:0.4rem;">
+                <h4 style="color:#1e1b4b; margin:0; font-size:1.05rem; font-weight:700;"><?= htmlspecialchars($h['name']) ?></h4>
+                <span style="background:rgba(139,92,246,0.1); color:#8b5cf6; padding:2px 8px; border-radius:8px; font-size:0.72rem; font-weight:600;"><?= $h['rating'] ?>★</span>
+              </div>
+              <p style="color:#6b7280; margin:0 0 0.4rem; font-size:0.78rem;"><?= htmlspecialchars($h['destination']) ?> &nbsp;·&nbsp; <?= str_repeat('★', $h['stars'] ?? 4) ?></p>
+              <p style="color:#6b7280; margin:0 0 0.6rem; font-size:0.82rem;"><?= htmlspecialchars($h['description'] ?? '') ?></p>
+              <?php if($h['amenities']): ?>
+              <div style="margin-bottom:0.7rem; display:flex; flex-wrap:wrap; gap:5px;">
+                <?php foreach(array_slice(array_map('trim',explode(',',$h['amenities'])),0,4) as $am): ?>
+                <span style="background:rgba(139,92,246,0.07); color:#8b5cf6; padding:2px 9px; border-radius:6px; font-size:0.7rem; font-weight:600;"><?= htmlspecialchars($am) ?></span>
+                <?php endforeach; ?>
+              </div>
+              <?php endif; ?>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <span style="color:#8b5cf6; font-size:1.2rem; font-weight:800;">₹<?= number_format($h['price_per_night']) ?></span>
+                  <span style="color:#9ca3af; font-size:0.72rem;">/night</span>
+                </div>
+                <a href="tours.php" class="pkg-btn" style="width:auto; margin:0; padding:7px 18px; font-size:0.82rem;">Book</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4 hotel-card-wrap">
-          <div class="hotel-card"><div style="overflow: hidden;"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&h=200&fit=crop" alt="Paris Hotel" class="hotel-card-img"></div><div class="hotel-card-body"><div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.4rem;"><h4 style="color: #1e1b4b; margin: 0; font-size: 1.05rem; font-weight: 700;">Le Grand Paris</h4><span style="background: rgba(139,92,246,0.1); color: #8b5cf6; padding: 2px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 600;">4.9★</span></div><p style="color: #6b7280; margin: 0 0 0.6rem; font-size: 0.82rem;">Boutique hotel with Eiffel Tower views</p><div style="display: flex; justify-content: space-between; align-items: center;"><div><span style="color: #9ca3af; font-size: 0.72rem; text-decoration: line-through;">₹36,999</span><span style="color: #8b5cf6; font-size: 1.2rem; font-weight: 800; margin-left: 0.25rem;">₹30,999</span><span style="color: #9ca3af; font-size: 0.72rem;">/night</span></div><a href="tours.php" class="pkg-btn" style="width: auto; margin: 0; padding: 7px 18px; font-size: 0.82rem;">Book</a></div></div></div>
+      <?php endwhile;
+          else: ?>
+        <div class="col-12 text-center py-5" style="color:#9ca3af;">
+          <i class="bi bi-building" style="font-size:3rem; display:block; margin-bottom:1rem; opacity:0.3;"></i>
+          <p>No hotels available yet. Check back soon!</p>
         </div>
-        <div class="col-md-4 hotel-card-wrap">
-          <div class="hotel-card"><div style="overflow: hidden;"><img src="https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400&h=250&fit=crop" alt="Tokyo Hotel" class="hotel-card-img"></div><div class="hotel-card-body"><div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.4rem;"><h4 style="color: #1e1b4b; margin: 0; font-size: 1.05rem; font-weight: 700;">Tokyo Sky Hotel</h4><span style="background: rgba(139,92,246,0.1); color: #8b5cf6; padding: 2px 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 600;">4.7★</span></div><p style="color: #6b7280; margin: 0 0 0.6rem; font-size: 0.82rem;">Modern high-rise with skyline views</p><div style="display: flex; justify-content: space-between; align-items: center;"><div><span style="color: #9ca3af; font-size: 0.72rem; text-decoration: line-through;">₹22,999</span><span style="color: #8b5cf6; font-size: 1.2rem; font-weight: 800; margin-left: 0.25rem;">₹17,999</span><span style="color: #9ca3af; font-size: 0.72rem;">/night</span></div><a href="tours.php" class="pkg-btn" style="width: auto; margin: 0; padding: 7px 18px; font-size: 0.82rem;">Book</a></div></div></div>
-        </div>
+      <?php endif;
+      } catch(Exception $e) { echo "<div class='col-12 text-center py-4 text-muted'>Could not load hotels.</div>"; } ?>
       </div>
     </div>
   </section>
