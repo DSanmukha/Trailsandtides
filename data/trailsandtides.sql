@@ -53,6 +53,19 @@ CREATE TABLE IF NOT EXISTS destinations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Hotels Table
+CREATE TABLE IF NOT EXISTS hotels (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    destination VARCHAR(100),
+    description TEXT,
+    price_per_night DECIMAL(12,2),
+    original_price DECIMAL(12,2),
+    rating DECIMAL(2,1) DEFAULT 4.5,
+    image_url VARCHAR(500),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Bookings Table
 CREATE TABLE IF NOT EXISTS bookings (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -87,13 +100,13 @@ CREATE TABLE IF NOT EXISTS journal_entries (
 -- =============================================
 
 -- Sample Users (password: 'password')
-INSERT INTO users (name, email, password, role) VALUES
+INSERT IGNORE INTO users (name, email, password, role) VALUES
 ('Admin', 'admin@trailsandtides.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
 ('John Doe', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user'),
 ('Priya Sharma', 'priya@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user');
 
 -- Sample Tours (INR)
-INSERT INTO tours (title, destination, duration, price, original_price, rating, reviews, tag, group_type) VALUES
+INSERT IGNORE INTO tours (title, destination, duration, price, original_price, rating, reviews, tag, group_type) VALUES
 ('Bali Paradise Experience', 'Bali, Indonesia', 7, 149999, 199999, 4.8, 284, 'POPULAR', 'Group Tours'),
 ('Swiss Alps Adventure', 'Switzerland', 5, 219999, 259999, 4.9, 156, 'LUXURY', 'Small Groups'),
 ('Tokyo Lights & Culture', 'Tokyo, Japan', 4, 119999, 149999, 4.7, 342, 'FAMILY', 'All Ages'),
@@ -102,12 +115,12 @@ INSERT INTO tours (title, destination, duration, price, original_price, rating, 
 ('Egypt Historical Journey', 'Egypt', 9, 189999, 229999, 4.8, 127, 'CULTURAL', 'History Enthusiasts');
 
 -- Sample Destinations
-INSERT INTO destinations (name, country, region, description, weather, temperature, rating, tour_count, image_url) VALUES
-('Bali', 'Indonesia', 'Southeast Asia', 'Tropical beaches, ancient temples, rice terraces, and vibrant nightlife', 'Sunny', 28, 4.8, 12, 'https://images.unsplash.com/photo-1537225228614-b3fb3d625cb0?w=600'),
-('Paris', 'France', 'Europe', 'City of love — iconic landmarks, world-class museums, and exquisite cuisine', 'Cloudy', 18, 4.9, 8, 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600'),
-('Tokyo', 'Japan', 'East Asia', 'Neon-lit streets, ancient temples, and the finest cuisine in the world', 'Clear', 20, 4.7, 6, 'https://images.unsplash.com/photo-1540959375944-7049f642e9a0?w=600'),
-('Maldives', 'Maldives', 'South Asia', 'Crystal clear waters, overwater bungalows, and pristine coral reefs', 'Sunny', 29, 5.0, 4, 'https://images.unsplash.com/photo-1514282401047-7e6e5d71eae2?w=600'),
-('Swiss Alps', 'Switzerland', 'Europe', 'Majestic peaks, alpine meadows, chocolate, and world-class skiing', 'Snowy', 5, 4.8, 5, 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600'),
-('New York', 'USA', 'North America', 'The city that never sleeps — Broadway, Central Park, and iconic skyline', 'Clear', 22, 4.6, 7, 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600'),
-('Egypt', 'Egypt', 'Africa', 'Ancient pyramids, pharaohs tombs, the Nile, and desert adventures', 'Hot', 35, 4.5, 3, 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600'),
-('Costa Rica', 'Costa Rica', 'Central America', 'Rainforests, volcanoes, wildlife, and pristine Pacific beaches', 'Tropical', 27, 4.7, 4, 'https://images.unsplash.com/photo-1518259102261-b57b7c8e3204?w=600');
+INSERT IGNORE INTO destinations (name, country, region, description, weather, temperature, rating, tour_count, image_url) VALUES
+('Bali', 'Indonesia', 'Southeast Asia', 'Tropical beaches, ancient temples, rice terraces, and vibrant nightlife', 'Sunny', 28, 4.8, 12, 'assets/images/destinations/bali.jpg'),
+('Paris', 'France', 'Europe', 'City of love — iconic landmarks, world-class museums, and exquisite cuisine', 'Cloudy', 18, 4.9, 8, 'assets/images/destinations/paris.jpg'),
+('Tokyo', 'Japan', 'East Asia', 'Neon-lit streets, ancient temples, and the finest cuisine in the world', 'Clear', 20, 4.7, 6, 'assets/images/destinations/tokyo.jpg'),
+('Maldives', 'Maldives', 'South Asia', 'Crystal clear waters, overwater bungalows, and pristine coral reefs', 'Sunny', 29, 5.0, 4, 'assets/images/destinations/maldives.jpg'),
+('Swiss Alps', 'Switzerland', 'Europe', 'Majestic peaks, alpine meadows, chocolate, and world-class skiing', 'Snowy', 5, 4.8, 5, 'assets/images/destinations/swiss-alps.jpg'),
+('New York', 'USA', 'North America', 'The city that never sleeps — Broadway, Central Park, and iconic skyline', 'Clear', 22, 4.6, 7, 'assets/images/destinations/newyork.jpg'),
+('Egypt', 'Egypt', 'Africa', 'Ancient pyramids, pharaohs tombs, the Nile, and desert adventures', 'Hot', 35, 4.5, 3, 'assets/images/destinations/bali.jpg'),
+('Costa Rica', 'Costa Rica', 'Central America', 'Rainforests, volcanoes, wildlife, and pristine Pacific beaches', 'Tropical', 27, 4.7, 4, 'assets/images/destinations/beach.jpg');

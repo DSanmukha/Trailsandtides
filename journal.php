@@ -29,7 +29,7 @@ body { background: #f5f3ff; }
 /* ── Hero ── */
 .journal-hero {
     background: linear-gradient(135deg, rgba(30,27,75,0.92), rgba(76,29,149,0.82)),
-                url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600&h=600&fit=crop') center/cover;
+                url('assets/images/hero.jpg') center/cover;
     padding: 160px 0 80px; margin-top: -76px; text-align: center;
 }
 .journal-hero .hero-badge {

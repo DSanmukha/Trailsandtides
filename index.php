@@ -262,7 +262,7 @@
             <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                 <div class="destination-card-modern">
                     <div class="dest-img-wrapper">
-                        <img src="assets/images/bali.jpg" alt="Bali" class="dest-check-img" data-fallback="https://images.unsplash.com/photo-1537225228614-b4fad34a2b08?w=600&h=500&fit=crop">
+                        <img src="assets/images/bali.jpg" alt="Bali" class="dest-check-img">
                         <div class="dest-overlay"></div>
                     </div>
                     <div class="dest-content"><h4>Bali, Indonesia</h4><p>Tropical beaches & ancient temples</p><div class="dest-meta"><span class="dest-temp">28°C <i class="bi bi-sun"></i></span><a href="destinations.php" class="dest-explore-btn">Explore</a></div></div>
@@ -271,7 +271,7 @@
             <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
                 <div class="destination-card-modern">
                     <div class="dest-img-wrapper">
-                        <img src="assets/images/paris.jpg" alt="Paris" class="dest-check-img" data-fallback="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&h=500&fit=crop">
+                        <img src="assets/images/paris.jpg" alt="Paris" class="dest-check-img">
                         <div class="dest-overlay"></div>
                     </div>
                     <div class="dest-content"><h4>Paris, France</h4><p>City of love & iconic landmarks</p><div class="dest-meta"><span class="dest-temp">18°C <i class="bi bi-cloud-sun"></i></span><a href="destinations.php" class="dest-explore-btn">Explore</a></div></div>
@@ -280,7 +280,7 @@
             <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
                 <div class="destination-card-modern">
                     <div class="dest-img-wrapper">
-                        <img src="assets/images/maldives.jpg" alt="Maldives" class="dest-check-img" data-fallback="https://images.unsplash.com/photo-1514282401047-7e6e5d71eae2?w=600&h=500&fit=crop">
+                        <img src="assets/images/maldives.jpg" alt="Maldives" class="dest-check-img">
                         <div class="dest-overlay"></div>
                     </div>
                     <div class="dest-content"><h4>Maldives</h4><p>Overwater bungalows & coral reefs</p><div class="dest-meta"><span class="dest-temp">29°C <i class="bi bi-sun"></i></span><a href="destinations.php" class="dest-explore-btn">Explore</a></div></div>
@@ -289,7 +289,7 @@
             <div class="col-lg-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
                 <div class="destination-card-modern">
                     <div class="dest-img-wrapper">
-                        <img src="assets/images/tokyo.jpg" alt="Japan" class="dest-check-img" data-fallback="https://images.unsplash.com/photo-1540959375944-7049f642e9f1?w=600&h=500&fit=crop">
+                        <img src="assets/images/tokyo.jpg" alt="Japan" class="dest-check-img">
                         <div class="dest-overlay"></div>
                     </div>
                     <div class="dest-content"><h4>Tokyo, Japan</h4><p>Modern tech meets ancient tradition</p><div class="dest-meta"><span class="dest-temp">20°C <i class="bi bi-cloud"></i></span><a href="destinations.php" class="dest-explore-btn">Explore</a></div></div>
@@ -325,10 +325,10 @@
             <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
                 <div class="offer-card-enhanced offer-coral">
                     <div class="offer-badge" style="background: linear-gradient(135deg, #f97316, #fb923c);">20% OFF</div>
-                    <div class="offer-icon-wrap"><i class="bi bi-airplane-fill"></i></div>
-                    <h4 style="color: #1e1b4b; font-family: 'Montserrat'; font-weight: 700; margin-bottom: 8px;">Flight Deals</h4>
-                    <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 1.25rem;">Exclusive discounts on international flights to dream destinations</p>
-                    <a href="#" class="btn-hero-primary" style="background: linear-gradient(135deg, #f97316, #fb923c); border: none; font-size: 0.85rem; padding: 10px 28px;">Claim Offer</a>
+                    <div class="offer-icon-wrap"><i class="bi bi-geo-alt-fill"></i></div>
+                    <h4 style="color: #1e1b4b; font-family: 'Montserrat'; font-weight: 700; margin-bottom: 8px;">Destinations</h4>
+                    <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 1.25rem;">Exclusive discounts on handpicked destinations around the world</p>
+                    <a href="destinations.php" class="btn-hero-primary" style="background: linear-gradient(135deg, #f97316, #fb923c); border: none; font-size: 0.85rem; padding: 10px 28px;">Explore Destinations</a>
                 </div>
             </div>
             <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">

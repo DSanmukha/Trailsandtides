@@ -56,7 +56,7 @@ if(isset($_POST['login'])){
         .auth-logo i { font-size: 2rem; color: #c4b5fd; }
         .auth-logo h2 { font-family: 'Playfair Display'; color: white; font-size: 1.75rem; margin: 8px 0 4px; }
         .auth-logo p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
-        .form-floating { margin-bottom: 1rem; }
+        .form-floating { margin-bottom: 1rem; position: relative; }
         .form-floating .form-control {
             background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
             color: white; border-radius: 12px; height: 56px;
@@ -66,6 +66,19 @@ if(isset($_POST['login'])){
             box-shadow: 0 0 0 3px rgba(139,92,246,0.15); color: white;
         }
         .form-floating label { color: rgba(255,255,255,0.5); }
+        .pwd-toggle {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: rgba(255,255,255,0.4);
+            cursor: pointer; z-index: 5; padding: 4px; font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .pwd-toggle:hover { color: rgba(255,255,255,0.8); }
+        .forgot-link {
+            display: block; text-align: right; margin: -4px 0 16px;
+            color: rgba(255,255,255,0.4); font-size: 0.8rem; text-decoration: none;
+            transition: color 0.2s;
+        }
+        .forgot-link:hover { color: #c4b5fd; }
         .btn-auth {
             width: 100%; padding: 14px; border: none; border-radius: 12px;
             background: linear-gradient(135deg, #8b5cf6, #c084fc);
@@ -111,7 +124,9 @@ if(isset($_POST['login'])){
             <div class="form-floating">
                 <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                 <label for="password"><i class="bi bi-lock me-2"></i>Password</label>
+                <button type="button" class="pwd-toggle" id="pwdToggle" tabindex="-1"><i class="bi bi-eye-slash" id="pwdIcon"></i></button>
             </div>
+            <a href="#" class="forgot-link" onclick="alert('Please contact admin@trailsandtides.com to reset your password.'); return false;">Forgot password?</a>
             <button type="submit" name="login" class="btn-auth">Sign In</button>
         </form>
 
@@ -121,5 +136,18 @@ if(isset($_POST['login'])){
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.getElementById('pwdToggle').addEventListener('click', function() {
+        const pwd = document.getElementById('password');
+        const icon = document.getElementById('pwdIcon');
+        if (pwd.type === 'password') {
+            pwd.type = 'text';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        } else {
+            pwd.type = 'password';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        }
+    });
+    </script>
 </body>
 </html>
